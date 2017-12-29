@@ -1,0 +1,57 @@
+{% extends "base.html" %} {% block title %} Home {% endblock %} {% block content %}
+<div class="jumbotron">
+  <div class="container" id="intro">
+    <h1 class="text-center">{{ trip.dest }}</h1>
+  </div>
+</div>
+
+<div class="row">
+      <div class="col-md-10">
+        <div class="container">
+          <h6> <strong>Trip Detail</strong> </h6>
+          <p>Below you can find info for the students on this trip.</p>
+          <div class="table-responsive">
+            <table class="table table-striped" id="tripInfo">
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>Student</th>
+                  <th>Primary Contact's Name</th>
+                  <th>Primary's Cell</th>
+                  <th>Secondary Contact's Name</th>
+                  <th>Secondary's Cell</th>
+                  <th>Riding Back?</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  {% for x in manifest %}
+                  <td>{{ manifest.index(x) + 1 }}</td>
+                  <td>{{ x.s_first }} {{x.s_last}}</td>
+                  <td>{{ x.s_m_name }}</td>
+                  <td><a href="tel:+{{x.s_m_num}}">{{x.s_m_num}}</a></td>
+                  <td>{{ x.s_f_name }}</td>
+                  <td><a href="tel:+{{x.s_f_num}}">{{x.s_f_num}}</a></td>
+                  {% if x.return_trip == 1 %}
+                  <td>x</td>
+                  {% else %}
+                  <td> </td>
+                  {% endif %}
+                </tr>
+                  {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function updateCompletion(){
+    $("#tripInfo").load("/trips/{{ trip.pin }} #tripInfo");
+    };
+
+    setInterval(updateCompletion, 1000)
+    </script>
+
+{% endblock %}

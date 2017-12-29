@@ -1,0 +1,70 @@
+{% extends "base.html" %} {% block title %} Home {% endblock %} {% block content %}
+<div class="jumbotron">
+  <div class="container" id="intro">
+    <h1 class="text-center">List of trips</h1>
+  </div>
+</div>
+<div class="container" id="deets">
+  <p>Below, you'll find two tables. The top one is for all trips that are taking place today. The bottom table illustrates all trips, including the ones for today. <strong>Click on a destination for a trip manifest.</strong></p>
+</div>
+
+<div class="row">
+      <div class="col-md-10">
+        <div class="container">
+          <h6> <strong>Today's Trips</strong> </h6>
+          <div class="table-responsive">
+            <table class="table table-striped" id="tripInfo">
+              <thead>
+                <tr>
+                  <th>Driver</th>
+                  <th>Destination</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for x in current_trips %}
+                <tr>
+                  <td>{{ x.driver }}</td>
+                  <td><a href="/trips/{{ x.pin }}">{{ x.dest }}</a></td>
+                </tr>
+                  {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<div class="row">
+      <div class="col-md-10">
+        <div class="container">
+          <h6> <strong>All Trips</strong> </h6>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Driver</th>
+                  <th>Destination</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for x in trip_list %}
+                <tr>
+                  <td>{{ x.driver }}</td>
+                  <td><a href="/trips/{{ x.pin }}">{{ x.dest }}</a></td>
+                </tr>
+                  {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      function updateCompletion(){
+    $("#tripInfo").load("/trips #tripInfo");
+};
+
+setInterval(updateCompletion, 1000)
+    </script>
+
+{% endblock %}
